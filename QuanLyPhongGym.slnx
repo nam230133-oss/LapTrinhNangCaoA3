@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="QuanLyPhongGym.API/QuanLyPhongGym.API.csproj" Id="5ed44e53-ced2-4498-9939-8c52710ec8c4" />
+  <Project Path="QuanLyPhongGym.Application/QuanLyPhongGym.Application.csproj" Id="b8cbb652-dd70-4b61-bb4c-5350b0faad6e" />
+  <Project Path="QuanLyPhongGym.Domain/QuanLyPhongGym.Domain.csproj" Id="1294be3b-d024-445e-abc4-73716f490fbb" />
+  <Project Path="QuanLyPhongGym.Infrastructure/QuanLyPhongGym.Infrastructure.csproj" Id="e6c4c3f3-d6c6-4258-9495-c10527e9efa6" />
+</Solution>
