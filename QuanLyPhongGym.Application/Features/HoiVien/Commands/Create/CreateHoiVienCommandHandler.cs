@@ -1,13 +1,18 @@
-﻿// File: Features/HoiVien/Commands/Create/CreateHoiVienCommandHandler.cs
-using MediatR;
+﻿using MediatR;
 using QuanLyPhongGym.Application.Common.Interfaces;
+using QuanLyPhongGym.Domain.Entities;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace QuanLyPhongGym.Application.Features.HoiVien.Commands.Create
 {
+
     public class CreateHoiVienCommandHandler : IRequestHandler<CreateHoiVienCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
 
+        // Sử dụng Block Constructor chuẩn để tránh lỗi nhận diện của compiler
         public CreateHoiVienCommandHandler(IApplicationDbContext context)
         {
             _context = context;
@@ -15,22 +20,22 @@ namespace QuanLyPhongGym.Application.Features.HoiVien.Commands.Create
 
         public async Task<Guid> Handle(CreateHoiVienCommand request, CancellationToken cancellationToken)
         {
-            // 1. Chuyển đổi dữ liệu Command thành Entity của tầng Domain
-            var entity = new Domain.Entities.HoiVien
+            var hoiVien = new Domain.Entities.HoiVien
             {
                 Id = Guid.NewGuid(),
-                Ten = request.Ten,
-                SoDienThoai = request.SoDienThoai,
-                NgayThamGia = DateTime.UtcNow,
-                TrangThaiHoatDong = true
+                MemberCode = request.MemberCode,
+                LastName = request.LastName,
+                FirstName = request.FirstName,
+                Phone = request.Phone,
+                Email = request.Email,
+                CreatedDate = DateTime.Now,
+                Status = true
             };
 
-            // 2. Thêm vào DbContext và Lưu
-            _context.HoiViens.Add(entity);
+            _context.HoiViens.Add(hoiVien);
             await _context.SaveChangesAsync(cancellationToken);
 
-            // 3. Trả về Id
-            return entity.Id;
+            return hoiVien.Id;
         }
     }
 }

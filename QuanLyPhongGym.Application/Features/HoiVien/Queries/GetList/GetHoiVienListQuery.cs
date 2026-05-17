@@ -1,7 +1,8 @@
 ﻿using MediatR;
-// Sử dụng alias (biệt danh) để tránh nhầm lẫn
-using HoiVienEntity = QuanLyPhongGym.Domain.Entities.HoiVien;
+using System.Collections.Generic;
 
-namespace QuanLyPhongGym.Application.Features.HoiVien.Queries.GetList;
-
-public record GetHoiVienListQuery() : IRequest<List<HoiVienEntity>>;
+namespace QuanLyPhongGym.Application.Features.HoiVienManagement.Queries.GetList
+{
+    // Sử dụng đường dẫn đầy đủ tới Domain để tránh lỗi "does not exist"
+    public record GetHoiVienListQuery() : IRequest<List<QuanLyPhongGym.Domain.Entities.HoiVien>>;
+}

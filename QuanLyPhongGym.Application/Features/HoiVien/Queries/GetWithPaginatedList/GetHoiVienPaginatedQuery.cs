@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
 
-namespace QuanLyPhongGym.Application.Features.HoiVien.Queries.GetWithPaginatedList
+namespace QuanLyPhongGym.Application.Features.HoiVienManagement.Queries.GetWithPaginatedList
 {
-    internal class GetHoiVienPaginatedQuery
-    {
-    }
+    // Định nghĩa các tham số phân trang và tìm kiếm nhận từ client
+    public record GetHoiVienPaginatedQuery(
+        int PageNumber = 1,
+        int PageSize = 10,
+        string? SearchTerm = null) : IRequest<object>;
 }

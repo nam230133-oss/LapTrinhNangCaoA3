@@ -12,13 +12,18 @@ namespace QuanLyPhongGym.Infrastructure.Persistence.DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<HoiVien> HoiViens => Set<HoiVien>();
+        public DbSet<HoiVien> HoiViens { get; set; }
+        public DbSet<GoiTap> GoiTaps { get; set; }
+        public DbSet<TheHoiVien> TheHoiViens { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Tự động quét và apply cái HoiVienConfiguration ở trên
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
+
+            // Cấu hình cho thuộc tính Gia của GoiTap
+            modelBuilder.Entity<GoiTap>()
+                .Property(g => g.Gia)
+                .HasPrecision(18, 2); // 18 chữ số, 2 số sau dấu phẩy
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyPhongGym.Infrastructure.Persistence.DbContext;
 
@@ -11,9 +12,11 @@ using QuanLyPhongGym.Infrastructure.Persistence.DbContext;
 namespace QuanLyPhongGym.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260513012244_AddGoiTapAndTheHoiVien")]
+    partial class AddGoiTapAndTheHoiVien
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.GoiTap", b =>
+            modelBuilder.Entity("GoiTap", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,18 +38,11 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
                     b.Property<string>("MoTa")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SoBuoi")
-                        .HasColumnType("int");
-
                     b.Property<string>("TenGoi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ThoiHanNgay")
                         .HasColumnType("int");
-
-                    b.Property<bool>("TrangThai")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -59,32 +55,18 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("NgayThamGia")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FaceData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
+                    b.Property<string>("SoDienThoai")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Ten")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MemberCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
+                    b.Property<bool>("TrangThaiHoatDong")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -103,6 +85,9 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
 
                     b.Property<Guid>("HoiVienId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MaVach_QRCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("NgayHetHan")
                         .HasColumnType("datetime2");

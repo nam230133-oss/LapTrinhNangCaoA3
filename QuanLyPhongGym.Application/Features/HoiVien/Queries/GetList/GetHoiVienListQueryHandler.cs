@@ -1,12 +1,14 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongGym.Application.Common.Interfaces;
-// Chỉ định rõ ràng class HoiVien từ Domain
-using HoiVienEntity = QuanLyPhongGym.Domain.Entities.HoiVien;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace QuanLyPhongGym.Application.Features.HoiVien.Queries.GetList
+// Đảm bảo namespace này TRÙNG với file Query ở trên
+namespace QuanLyPhongGym.Application.Features.HoiVienManagement.Queries.GetList
 {
-    public class GetHoiVienListQueryHandler : IRequestHandler<GetHoiVienListQuery, List<HoiVienEntity>>
+    public class GetHoiVienListQueryHandler : IRequestHandler<GetHoiVienListQuery, List<QuanLyPhongGym.Domain.Entities.HoiVien>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,10 +17,11 @@ namespace QuanLyPhongGym.Application.Features.HoiVien.Queries.GetList
             _context = context;
         }
 
-        public async Task<List<HoiVienEntity>> Handle(GetHoiVienListQuery request, CancellationToken cancellationToken)
+        public async Task<List<QuanLyPhongGym.Domain.Entities.HoiVien>> Handle(GetHoiVienListQuery request, CancellationToken cancellationToken)
         {
+            // Lấy danh sách gồm các trường: MemberCode, FullName, Phone, Status 
             return await _context.HoiViens
-                .AsNoTracking()
+                .AsNoTracking() // Tối ưu hiệu năng cho API theo đặc tả
                 .ToListAsync(cancellationToken);
         }
     }

@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
+using System;
 
 namespace QuanLyPhongGym.Application.Features.HoiVien.Commands.Update
 {
-    internal class UpdateHoiVienCommand
-    {
-    }
+    public record UpdateHoiVienCommand(
+        Guid Id,
+        string MemberCode,
+        string LastName,
+        string FirstName,
+        string Phone,
+        string Email,
+        bool Status) : IRequest<bool>;
 }

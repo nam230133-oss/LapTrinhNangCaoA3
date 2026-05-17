@@ -6,7 +6,10 @@ namespace QuanLyPhongGym.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<HoiVien> HoiViens { get; }
+        DbSet<HoiVien> HoiViens { get; set; }
+        DbSet<GoiTap> GoiTaps { get; set; }        // Thêm dòng này
+        DbSet<TheHoiVien> TheHoiViens { get; set; } // Thêm dòng này
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

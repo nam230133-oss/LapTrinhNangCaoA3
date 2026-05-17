@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
+using System;
 
-namespace QuanLyPhongGym.Application.Features.HoiVien.Queries.GetById
+namespace QuanLyPhongGym.Application.Features.HoiVienManagement.Queries.GetById
 {
-    internal class GetHoiVienByIdQuery
-    {
-    }
+    // Định nghĩa tham số đầu vào cho yêu cầu tìm kiếm theo Id
+    public record GetHoiVienByIdQuery(Guid Id) : IRequest<object?>;
 }
