@@ -10,5 +10,5 @@ namespace QuanLyPhongGym.Application.Features.HoiVien.Commands.Update
         string FirstName,
         string Phone,
         string Email,
-        bool Status) : IRequest<bool>;
+        string Status) : IRequest<bool>;
 }

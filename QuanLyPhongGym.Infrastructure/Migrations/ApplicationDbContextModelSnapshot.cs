@@ -17,10 +17,140 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.7")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LichTap", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HoiVienId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ThoiGianBatDau")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ThoiGianKetThuc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoiVienId");
+
+                    b.ToTable("LichTaps");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("HoiVienId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specialization")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TempField")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoiVienId")
+                        .IsUnique()
+                        .HasFilter("[HoiVienId] IS NOT NULL");
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.CheckIn", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CheckInTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("HoiVienId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoiVienId");
+
+                    b.ToTable("CheckIns");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.Contract", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GoiTapId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HoiVienId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("NhanVienId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contracts");
+                });
 
             modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.GoiTap", b =>
                 {
@@ -59,6 +189,12 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -72,24 +208,68 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MemberCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("NhanVienTaoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("HoiViens");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.SanPham", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrentStock")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PurchasePrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SKU")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SalePrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SanPhams");
                 });
 
             modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.TheHoiVien", b =>
@@ -115,7 +295,66 @@ namespace QuanLyPhongGym.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GoiTapId");
+
+                    b.HasIndex("HoiVienId");
+
                     b.ToTable("TheHoiViens");
+                });
+
+            modelBuilder.Entity("LichTap", b =>
+                {
+                    b.HasOne("QuanLyPhongGym.Domain.Entities.HoiVien", "HoiVien")
+                        .WithMany()
+                        .HasForeignKey("HoiVienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HoiVien");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.Account", b =>
+                {
+                    b.HasOne("QuanLyPhongGym.Domain.Entities.HoiVien", "HoiVien")
+                        .WithOne("Account")
+                        .HasForeignKey("QuanLyPhongGym.Domain.Entities.Account", "HoiVienId");
+
+                    b.Navigation("HoiVien");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.CheckIn", b =>
+                {
+                    b.HasOne("QuanLyPhongGym.Domain.Entities.HoiVien", "HoiVien")
+                        .WithMany()
+                        .HasForeignKey("HoiVienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HoiVien");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.TheHoiVien", b =>
+                {
+                    b.HasOne("QuanLyPhongGym.Domain.Entities.GoiTap", "GoiTap")
+                        .WithMany()
+                        .HasForeignKey("GoiTapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyPhongGym.Domain.Entities.HoiVien", "HoiVien")
+                        .WithMany()
+                        .HasForeignKey("HoiVienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoiTap");
+
+                    b.Navigation("HoiVien");
+                });
+
+            modelBuilder.Entity("QuanLyPhongGym.Domain.Entities.HoiVien", b =>
+                {
+                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,21 +17,26 @@ namespace QuanLyPhongGym.Application.Features.HoiVien.Commands.Update
 
         public async Task<bool> Handle(UpdateHoiVienCommand request, CancellationToken cancellationToken)
         {
-            // Tìm hội viên cần sửa trong Database
             var hoiVien = await _context.HoiViens
                 .FirstOrDefaultAsync(h => h.Id == request.Id, cancellationToken);
 
-            if (hoiVien == null) return false; // Không tìm thấy để sửa
+            if (hoiVien == null) return false;
 
-            // Gán dữ liệu mới thay thế dữ liệu cũ
-            hoiVien.MemberCode = request.MemberCode;
+            // Cập nhật các trường thông tin cơ bản
             hoiVien.LastName = request.LastName;
             hoiVien.FirstName = request.FirstName;
             hoiVien.Phone = request.Phone;
             hoiVien.Email = request.Email;
             hoiVien.Status = request.Status;
 
-            // Lưu thay đổi vào SQL Server
+            // QUAN TRỌNG: Chỉ cập nhật MemberCode nếu request có gửi lên giá trị mới
+            if (!string.IsNullOrEmpty(request.MemberCode))
+            {
+                hoiVien.MemberCode = request.MemberCode;
+            }
+            // Nếu request.MemberCode là null hoặc rỗng, 
+            // chúng ta không đụng đến nó (giữ nguyên giá trị cũ trong Database)
+
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

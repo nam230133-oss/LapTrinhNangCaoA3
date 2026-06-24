@@ -1,43 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using QuanLyPhongGym.Application.Features.GoiTap.Queries.GetList;
 using QuanLyPhongGym.Application.Features.GoiTaps.Commands;
 using System;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Authorization;
 namespace QuanLyPhongGym.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")] // Đường dẫn cơ bản: api/GoiTap [cite: 182, 183]
+    [Route("api/[controller]")]
     public class GoiTapController : ControllerBase
     {
         private readonly IMediator _mediator;
 
         public GoiTapController(IMediator mediator) => _mediator = mediator;
 
-        /// Use Case 3: Tạo gói tập mới (Tháng, Quý, Năm, PT) [cite: 457, 459]
-        /// </summary>
-        [HttpPost("Create")] // URL: POST api/GoiTap/Create
+        // Chỉ Admin mới được phép tạo gói tập mới
+        [Authorize(Roles = "Admin")]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CreateGoiTapCommand command)
         {
-            var result = await _mediator.Send(command);
-
-            // Trả về 200 OK kèm theo ID của gói tập vừa tạo [cite: 236]
-            return Ok(new
+            try
             {
-                message = "Tạo gói tập thành công",
-                packageId = result
-            });
+                var result = await _mediator.Send(command);
+                return Ok(new
+                {
+                    message = "Tạo gói tập thành công",
+                    packageId = result
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Trả về lỗi 400 (Bad Request) thay vì để hệ thống tự văng lỗi 500
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // Bạn nên thêm phương thức GET để lấy danh sách gói tập phục vụ việc chọn gói khi đăng ký thẻ [cite: 232, 310]
-        [HttpGet("GetList")] // URL: GET api/GoiTap/GetList
+        // Cả Admin và Staff đều có thể xem danh sách để gán cho hội viên
+        [Authorize(Roles = "Admin, Staff")]
+        [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
-            // Logic lấy danh sách gói tập từ Database [cite: 187]
-            // var query = new GetGoiTapListQuery();
-            // var result = await _mediator.Send(query);
-            // return Ok(result);
-            return Ok("Tính năng lấy danh sách gói tập");
+            var result = await _mediator.Send(new GetGoiTapListQuery());
+            return Ok(result);
         }
     }
 }

@@ -16,8 +16,7 @@ namespace QuanLyPhongGym.Infrastructure.Persistence.Configurations
 
             // Cấu hình Mã hội viên (MemberCode)
             builder.Property(x => x.MemberCode)
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired(false);
 
             // Cấu hình cột LastName và FirstName trong DB
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(50);
